@@ -11,8 +11,11 @@ from keras.utils import Sequence
 def audio_norm(data):
     max_data = np.max(data)
     min_data = np.min(data)
-    data = (data-min_data)/(max_data-min_data+1e-6)
-    return data-0.5
+    max = max_data
+    if max < -min_data: 
+        max = -min_data
+    data = data/(max+1e-6)
+    return data * 0.5
 
 train = pd.read_csv("data/train.csv")
 #test = pd.read_csv("data/sample_submission.csv")
