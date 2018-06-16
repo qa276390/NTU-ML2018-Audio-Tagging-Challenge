@@ -61,7 +61,7 @@ def prepare_data(df, config, data_dir):
             ts = 2 ** np.random.uniform(-lgtr,lgtr)
             shifted_data = librosa.effects.time_stretch(shifted_data, ts)
             # white noise
-            wnvr = 0.1 # white noise volume range
+            wnvr = 0.05 # white noise volume range
             wnv  = np.random.uniform(0, wnvr) # white noise volume, random
             shifted_data += np.random.uniform(-wnv, wnv, shifted_data.shape)
             # Random offset / Padding
