@@ -17,16 +17,16 @@ r06942018 何適楷  b04505021 黃廉弼 b04505026 蔡仲閔 b04901165 陳致維
 ## Data Preprocessing/Feature Engineering 
 
 ### Data Generator
-Volume normalize
-Time strech
-Audio file repeat, offset, and cut
-Pitch shift
-Noise
+* Volume normalize
+* Time strech
+* Audio file repeat, offset, and cut
+* Pitch shift
+* Noise
 
 ### MFCC
-sampling_rate
-audio_duration
-n_mfcc
+* sampling_rate
+* audio_duration
+* n_mfcc
 
 
 ## Model Description (At least two different models)
