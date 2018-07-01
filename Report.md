@@ -52,6 +52,7 @@ r06942018 何適楷  b04505021 黃廉弼 b04505026 蔡仲閔 b04901165 陳致維
 
 ## Experiment and Discussion
 ### Data Preprocessing
+音訊處理並沒有像圖片一樣可以直接丟進一個CNN Network去處理，中間我們遇到很多問題，像是音檔的長度範圍過大，很容易造成照顧了短檔，忽略的長檔，或是照顧了長檔，但是忽略的短檔，還有在normalize中間其實也存在跟圖片處理不同的狀況。從作業我們也知道，data argumentation的成長幅度是驚人的，所以我們一開始也就把重心放在data argumentation，果真如我們所料，data argumentation所帶來的成果是大的，接下來我們會介紹我們遇到的問題與解決的方法。
 #### Sampling Rate
 人耳一般能聽到的聲音範圍極限大約是20kHz，我們選用的取樣頻率是44kHz從Nyquist theory得到最大能表現的頻率是22kHz，這樣使得能表現的頻率略高於人耳能聽見的頻率，讓人耳接受到的資訊完整呈現給機器處理，
 #### Volume normalize
