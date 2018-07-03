@@ -116,7 +116,7 @@ def audio_norm(data):
 我們另外想到的方法是，隨機調整音檔的長度，使其產生更多相似的data，我們使用的是`librosa`這個library內的`librosa.effects.time_stretch`這個function，這個function可以把音檔調快或調慢，我們一開始讓聲音快慢範圍在0.5倍至2倍之間隨機選擇，可是並沒有得到進步的結果，我們想到有可能是範圍過大，導致有些音檔的資訊完全扭曲，所以我們進一步調整音檔快轉/慢轉的係數，最後決定在1.1倍至0.9倍這個數字最適合。
 一開始我們是每個音檔，產生2個隨機放慢或放快的的音檔，因為得到好的成果，我們進一步從隨機2個，改至隨機4個，實踐data argumentation的精神，果真也有顯著的進步。
 
-| 方法 | testing error on mfcc |
+| 方法 | testing error on mfcc(ensembled) |
 | :-------: | :-----: |
 | 使用原始data | 0.902 |
 | 使用Time strech 隨機量=2 | 0.911 |
