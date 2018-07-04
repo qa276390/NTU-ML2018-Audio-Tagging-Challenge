@@ -135,11 +135,21 @@ def audio_norm(data):
 ### Model 
 這次使用的兩個Model中，其中1D Convolution訓練時間長
 #### Comparison
+在這邊我們將比較兩種不同的Model的表現，其中 2D Convolution 我們也又進行參數調整， 將filter數增加一倍，並增加Dropout Layer以避免模型過擬和，而在單一模型中也可以看到明顯提升，但ensemble之後提升較不明顯。我們以下的Accuracy及Loss都將取最後一次訓練的資料來做比較。
 
-|                        | val_ACC | val_loss | ACC  | loss |  time  |
-| ---------------------- | ------- | -------- | ---- | ---- | ------ |
-| 1D Convolution         |         |          |      |      | 14 hr+ |
-| 2D Convolution on MFCC |         |          |      |      |  2 hr  |
+|                            | ACC    | loss   | val_ACC | val_loss | time   |
+| -------------------------- | ------ | ------ | ------- | -------- | ------ |
+| 1D Convolution             | 62.87% | 1.2810 | 57.28%  | 1.5240   | 14 hr+ |
+| 2D Convolution on MFCC     | 92.65% | 0.2700 | 79.11%  | 0.8567   | 2 hr   |
+| Big 2D Convolution on MFCC | 96.49% | 0.1536 | 84.93%  | 0.6516   | 3 hr   |
+
+從上表可以看到1D Convolution 其實相當不好訓練，即便在TitanV的環境下仍要超過半天的時間，且Accuracy並不好，然而最後進行Ensemble時卻又不可或缺，總是能讓最好表現再上一層樓。
+
+#### Ensemble
+
+我們是原先是使用各自模型Predict後機率相乘的方式，但後來發現很有可能因Ensemble次數過多導致機率接近零，超出可表示範圍影響結果。因此我們採用將機率取log後相加的方法，也有效改善。
+
+在Public Score上我們單一MFCC Model可以到達0.909的準確率，而經過和1D Model Ensemble後則可以到達0.925的準確率，相當有成效。
 ## Conclusion
 經過我們多次嘗試，我們得出以下結論
 * 對音量做normalize對mfcc有極大的幫助，對1D Convolution model並沒有顯著的效果，推測原因是1D Convolution model中的每個cell都具有常數項，能補足音檔offset，然後mfcc的一系列操作則對offset敏感，故在normalize的時候必須保持音量為0的地方為0。
