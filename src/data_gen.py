@@ -108,11 +108,11 @@ train["label_idx"] = train.label.apply(lambda x: label_idx[x])
 
 test_data = prepare_test_data(config, data_dir='../input/audio_test/')
 
-np.save('../data_gen/test_mfcc.npy',test_data)
+np.save('../input/mfcc/test_mfcc.npy',test_data)
 del test_data
 
 X_train, y = prepare_data(train, config, '../input/audio_train/')
 
-np.save('../data_gen/train_mfcc.npy',X_train)
-np.save('../data_gen/label.npy',y)
+np.save('../input/mfcc/train_mfcc.npy',X_train)
+np.save('../input/mfcc/label.npy',y)
 
