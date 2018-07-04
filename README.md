@@ -15,6 +15,8 @@ This final project is dependent on Python
 - matplotlib == 2.1.2
 - requests == 2.18.4
 - simplejson == 3.15.0
+- scikit-learn == 0.19.1
+
 
 ## Usage
 
