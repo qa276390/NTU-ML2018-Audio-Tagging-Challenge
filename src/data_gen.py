@@ -3,12 +3,12 @@ import pandas as pd
 import numpy as np
 import sys
 
-if sys.argv[1] == '--strech':
-	stretch_rate = sys.argv[2]
-	data_num = sys.argv[4]
+if sys.argv[1] == '--stretch':
+	stretch_rate = float(sys.argv[2])
+	data_num = int(sys.argv[4])
 else:
-	stretch_rate = sys.argv[4]
-	data_num = sys.argv[2]
+	stretch_rate = float(sys.argv[4])
+	data_num = int(sys.argv[2])
 
 def audio_norm(data):
     max_data = np.max(np.absolute(data))
@@ -39,7 +39,7 @@ def prepare_data(df, config, data_dir):
     y = np.empty(df.shape[0] * config.datagen_num)
     input_length = config.audio_length
     for i, fname in enumerate(df.index):
-        print(fname+' ({0}/{1})'.format(i,df.shape[0]))
+        print(fname+' ({0}/{1})'.format(i+1,df.shape[0]))
         file_path = data_dir + fname
         data, _ = librosa.core.load(file_path, sr=config.sampling_rate)
         data = audio_norm(data)
@@ -79,20 +79,20 @@ def prepare_test_data(config, data_dir='../input/audio_test/'):
     test_data = np.empty(shape=(df.shape[0], config.dim[0], config.dim[1], 1))
     input_length = config.audio_length
     for i, fname in enumerate(df['fname']):
-        print(fname)
+        print(fname, '{0}/{1}'.format(i+1,df.shape[0]))
         file_path = data_dir + fname
         data, _ = librosa.core.load(file_path, sr=config.sampling_rate)
         if len(data)==0:
             data = np.zeros(88200)
         data = audio_norm(data)
         # Random offset / Padding
-        if len(data) < input_length:
+        if len(data) <= input_length:
             ratio = input_length/len(data)
-            ratio = np.ceil(ratio)
+            ratio = np.floor(ratio) + 1
             data = np.tile(data,int(ratio))
         max_offset = len(data) - input_length
         offset = np.random.randint(max_offset)
-            data = data[offset:(input_length+offset)]
+        data = data[offset:(input_length+offset)]
         data = librosa.feature.mfcc(data, sr=config.sampling_rate, n_mfcc=config.n_mfcc)
         data = np.expand_dims(data, axis=-1)
         test_data[i] = data
@@ -111,7 +111,7 @@ test_data = prepare_test_data(config, data_dir='../input/audio_test/')
 np.save('../input/mfcc/test_mfcc.npy',test_data)
 del test_data
 
-X_train, y = prepare_data(train, config, '../input/audio_train/')
+X_train, y = prepare_data(train, config, data_dir='../input/audio_train/')
 
 np.save('../input/mfcc/train_mfcc.npy',X_train)
 np.save('../input/mfcc/label.npy',y)
