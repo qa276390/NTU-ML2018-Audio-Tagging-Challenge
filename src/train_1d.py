@@ -34,7 +34,7 @@ sess = tf.Session(config = config)
 #from tensorflow.python.client import device_lib
 #print(device_lib.list_local_devices())
 
-get_ipython().run_line_magic('matplotlib', 'inline')
+#get_ipython().run_line_magic('matplotlib', 'inline')
 matplotlib.style.use('ggplot')
 os.getpid()
 
