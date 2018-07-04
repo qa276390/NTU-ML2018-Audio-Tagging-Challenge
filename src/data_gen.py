@@ -2,13 +2,20 @@ import librosa
 import pandas as pd
 import numpy as np
 import sys
+from argparse import ArgumentParser
 
-if sys.argv[1] == '--stretch':
-	stretch_rate = float(sys.argv[2])
-	data_num = int(sys.argv[4])
-else:
-	stretch_rate = float(sys.argv[4])
-	data_num = int(sys.argv[2])
+parser = ArgumentParser()
+parser.add_argument("--stretch", dest="stretch", type=float)
+parser.add_argument("--num", dest="num", type=int)
+parser.add_argument("--test_only", dest="test_only", type=int)
+args = parser.parse_args()
+
+stretch_rate = args.stretch
+print('stretch rate:',stretch_rate)
+data_num = args.num
+print('data_num:',data_num)
+test_only = args.test_only
+print('test_only:',bool(test_only))
 
 def audio_norm(data):
     max_data = np.max(np.absolute(data))
@@ -111,8 +118,8 @@ test_data = prepare_test_data(config, data_dir='../input/audio_test/')
 np.save('../input/mfcc/test_mfcc.npy',test_data)
 del test_data
 
-X_train, y = prepare_data(train, config, data_dir='../input/audio_train/')
-
-np.save('../input/mfcc/train_mfcc.npy',X_train)
-np.save('../input/mfcc/label_mfcc.npy',y)
+if not test_only:
+    X_train, y = prepare_data(train, config, data_dir='../input/audio_train/')
+    np.save('../input/mfcc/train_mfcc.npy',X_train)
+    np.save('../input/mfcc/label_mfcc.npy',y)
 
