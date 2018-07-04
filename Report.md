@@ -17,19 +17,71 @@ r06942018 何適楷  b04505021 黃廉弼 b04505026 蔡仲閔 b04901165 陳致維
 ## Data Preprocessing/Feature Engineering 
 
 ### Data Generator
-* Volume normalize
-* Time strech
-* Audio file repeat, offset, and cut
-* Pitch shift
-* Noise
 
-### MFCC
-* sampling_rate
-* audio_duration
-* n_mfcc
+Data Generator 主要分為兩個部分。第一個部分是對既有的訓練資料做一些小變化，
+達到增加訓練資料的效果。第二個部分是做 normalization，降低訓練的困難度。
+
+#### 第一部分:
+
+* Time Streching
+  隨機的將音訊檔案伸縮某個倍數
+* Pitch shifting
+  將整個音訊檔案的音高隨機的升降若干個半音
+  同一份音訊的升降值皆相同
+* Adding white noise
+  對音訊檔案加入隨機音量的白噪音
+
+#### 第二部分:
+
+- Volume normalization
+
+  將音訊的音量調整至固定大小。
+  第一個版本是把音訊資料中數值的最大值跟最小值 normalize 到 0.5 跟 -0.5
+  第二個版本是把音訊資料中數值絕對值的最大值 normalize 到 0.5，確保音檔資料的0點保持不變。
+  	
+
+- Fixing input length
+
+  將音訊的時間長度調整至固定大小。
+  第一個版本對長和短的音訊做不同的處理。對於比要求長度還要短的音訊，我們在音訊前後pad 0，
+  也就是添入無聲的資料點。音訊前後加入的無聲長度比例是隨機的，只要求總音訊長度固定。對於
+  比要求長度還要長的音訊，我們從隨機的位置開始，切一段符合長度要求的音訊出來。
+  第二個版本對音訊的處理做了統合。對於比要求長度還要短的音訊，將音訊重複多次，直到音訊變得
+  比要求長度還要長。如此一來所有的音訊都必定比要求長度長，之後便接著做第一版中對較長音訊所
+  做的處理。
+
+### MFCC (Mel Frequency Cepstral Coefficients)
+
+MFCC 是一種相當常見的聲音預處理技術。我們是直接使用librosa套件中的 mfcc 函數，並未重新實作，
+但我們還是對 MFCC 做了一定程度的了解後，才選用 MFCC 作聲音預處理。以下為 MFCC 對音訊做的
+處理步驟，以及做各個步驟的理由與優點:
+
+* Frame the signal
+  從音訊資料每隔10ms切出20ms~40ms的小時間區段(frame)。這能幫助了解一個短時間尺度內的聲音特徵。若區段取的更短，將不利於下一個步驟 DFT 的準確度。若區段取的更長，聲音特徵可能已經在該區段內發生太大的變化。
+* Discrete Fourier Transform
+  對每一段時間區段做piriodic-based DFT，取得該區段的功率頻譜。由於人耳的耳蝸會在不同的頻率振動，
+  並將之轉換為神經訊號傳至腦部，以頻譜作為分析聲音特徵的基礎相當常見。
 
 
-## Model Description (At least two different models)
+- Compute Mel-spaced filterbank energies (log scale)
+  Mel-spaced filterbank 為一系列(20~40個)波形為三角波，位於不同頻段的濾波器。
+  將每一段時間區段的功率頻譜乘上 filterbank 做積分，取得該區段在不同頻段下的能量值。
+  這是因為人耳並不能分辨微小的音高變化，且在越高的頻率越不容易分辨。Mel filterbank的設計便是越高頻
+  的濾波器的頻帶越長，利用這種濾波器做積分，能有效的減少資料量，同時給出不同頻段內的能量值。
+
+
+- Take the logarithm 
+  並將各個能量值取對數，得到不同頻段的分貝數。這是因為人耳對音量的感知不是線性而是指數的。
+
+
+- Discrete Cosine Transform
+  對一個時間區段中各個頻段的分貝數做 DCT，得到倒頻譜係數，並只保留前半段的係數。做 DCT 是為了做資料的去相關性，因為 Mel filterbank 之間是有重疊頻帶的，所以不同頻段的分貝數相關性很高。而只保留前半段的係數是為了增加音訊的平滑性，後半段的係數都是高頻的項，對於音訊處理的幫助不大，還有可能造成神經網路overfit，所以直接丟棄。
+
+經由上述步驟所得到的係數，即為 MFCC。
+
+
+
+## Model Description
 此章節主要介紹我們使用的Model，而實際訓練結果將在Experiment章節討論。
 在這個task中我們主要使用兩種Model，分別是1D-CNN以及2D-CNN on MFCC。一開始有考慮使用RNN進行訓練，但最後仍選擇使用CNN，主要是考慮到因為音訊檔某個程度上具有時序性的關係，但這次的task並非語意辨識那樣有次序調換影響結果的關係，因此透過CNN的filter就可以將其時序相關性表現出來。其中我們訓練都使用StratifiedKFold進行分層採樣，確保validation set中各類型資料比例和training set相同，並分別進行十次訓練，最後在進行ensemble.
 ### 1D Convolution
