@@ -114,5 +114,5 @@ del test_data
 X_train, y = prepare_data(train, config, data_dir='../input/audio_train/')
 
 np.save('../input/mfcc/train_mfcc.npy',X_train)
-np.save('../input/mfcc/label.npy',y)
+np.save('../input/mfcc/label_mfcc.npy',y)
 
