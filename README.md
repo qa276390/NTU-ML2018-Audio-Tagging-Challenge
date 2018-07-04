@@ -8,13 +8,13 @@ r06942018 何適楷   b04505021 黃廉弼  b04505026 蔡仲閔  b04901165 陳致
 
 This final project is dependent on Python 
 
-- keras == 
-- librosa ==
-- numpy == 
-- pandas == 
-- matplotlib == 
-- requests ==
-- simplejson ==
+- keras == 2.1.6
+- librosa == 0.6.1
+- numpy == 1.14.0
+- pandas == 0.22.0
+- matplotlib == 2.1.2
+- requests == 2.18.4
+- simplejson == 3.15.0
 
 ## Usage
 
