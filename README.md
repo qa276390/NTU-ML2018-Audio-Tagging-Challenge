@@ -59,10 +59,26 @@ python3 ./final/ranking.py
 ## Model
 
 ### 1D Convolution
+我們將音訊檔取sample之後直接將Raw Data餵進1D-CNN Model，中間經過多層架構並有MaxPooling提升訓練速度。而這樣的架構相當簡單，但缺點就是訓練時間非常長，因為我們並沒有對音訊檔做預處理，因此Data size極大，需透過data_generator每次load進Model中訓練，而file I/O次數變大幅增加，也拖垮整體訓練速度。
 
 
+|                        |  epoch  | learning_rate | optimizer  |        loss_function         |  activation_function  |
+| ---------------------- | ------- | ------------- | ---------- | ---------------------------- | --------------------- |
+| 1D Convolution         |   50    |     0.0001    |    Adam    |   categorical_crossentropy   |          relu         |
+
+
+<img src="img/1D-Conv.jpg" width="450">
 
 ### 2D Convolution on MFCC
+在這裡則是較常見的做法，我們先將data透過MFCC做預處理在在將它餵進2D-CNN Model中，此時就接近一個我們熟悉的圖像辨識問題。而好處在於透過MFCC處理的資料不但Size較小且較接近人耳辨識聲音的方式，因此在這個模型上可以得到相當不錯的結果。
+
+
+|                        |  epoch  | learning_rate | optimizer  |        loss_function         |  activation_function  |
+| ---------------------- | ------- | ------------- | ---------- | ---------------------------- | --------------------- |
+| 2D Convolution         |   50    |     0.0001    |    Adam    |   categorical_crossentropy   |          relu         |
+
+
+<img src="img/2D-Conv.jpg" width="450">
 
 
 
