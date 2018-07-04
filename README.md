@@ -8,13 +8,15 @@ r06942018 何適楷   b04505021 黃廉弼  b04505026 蔡仲閔  b04901165 陳致
 
 This final project is dependent on Python 
 
-- keras == 
-- librosa ==
-- numpy == 
-- pandas == 
-- matplotlib == 
-- requests ==
-- simplejson ==
+- keras == 2.1.6
+- librosa == 0.6.1
+- numpy == 1.14.0
+- pandas == 0.22.0
+- matplotlib == 2.1.2
+- requests == 2.18.4
+- simplejson == 3.15.0
+- scikit-learn == 0.19.1
+
 
 ## Usage
 
@@ -34,20 +36,16 @@ To train a model, do:
 
 ```shell
 # To use the train you should give the model you want to use:
-python3 ./final/src/training.py --model 1d_conv
-python3 ./final/src/training.py --model 2d_mfcc
+cd ./final/src && ./train.sh 1d_conv
+cd ./final/src && ./train.sh 2d_mfcc
 ```
-
-### Ensembling
-
-```shell
-python3 ./final/src/ensemble.py ./final/model/1d_conv ./final/model/2d_mfcc
-```
-
 
 
 ### Predict
 
+```shell
+cd ./final/src && ./predict.sh ./final/model/1d_conv ./final/model/2d_mfcc
+```
 
 
 ### Crawler the Rank on Kaggle
