@@ -117,14 +117,15 @@ def audio_norm(data):
 
 ### Data Generator
 #### Pitch shift
-我們利用librosa內建的function `librosa.effects.pitch_shift` 去實現，一開始我們將所有音量都隨機調整正負一個8度，但是並沒有得到好的結果，後來我們覺得可能頻率移動太多，某些音檔可能已經變得無法辨識，所以我們從正負一個8度調整到正負0.3度，可是依然無法得到明顯進步的結果，所以我們就放棄這個方法了。
+我們利用librosa內建的function `librosa.effects.pitch_shift` 去實現，一開始我們將所有音量都隨機調整正負一個8度，但是並沒有得到好的結果，後來我們覺得可能頻率移動太多，某些音檔可能已經變得無法辨識，所以我們從正負一個8度調整到正負0.3度，可是依然無法得到明顯進步的結果，所以我們就放棄這個方法了，我們推測mfcc中的某一步，利用三角形的函數與經過處理的頻域資料做類似convolution的處理，會自然產生對頻率的容忍度，所以使用這種方法不能為機器提供額外有用的資訊。
 #### Noise
 從課堂中我們學到，在data中適當的加入noise可以增加model的robusticity，所以我們加入最大音量5%的white noise，可惜的也沒有得到顯著的進步，之後我們把noise的level又調到1%，但是依然沒有得到進步的結果。我們推測所有音檔(包含testing、training)都收音蠻好的，幾乎沒甚麼雜訊，機器在判斷的時候，noise反而沒辦法得到好處。
 #### Time strech
 我們另外想到的方法是，隨機調整音檔的長度，使其產生更多相似的data，我們使用的是`librosa`這個library內的`librosa.effects.time_stretch`這個function，這個function可以把音檔調快或調慢，我們一開始讓聲音快慢範圍在0.5倍至2倍之間隨機選擇，可是並沒有得到進步的結果，我們想到有可能是範圍過大，導致有些音檔的資訊完全扭曲，所以我們進一步調整音檔快轉/慢轉的係數，最後決定在1.1倍至0.9倍這個數字最適合。
 一開始我們是每個音檔，產生2個隨機放慢或放快的的音檔，因為得到好的成果，我們進一步從隨機2個，改至隨機4個，實踐data argumentation的精神，果真也有顯著的進步。
+我們同樣也對1D Convolution model做相同的運算，但是並沒有得到明顯的進步。但是跟1D Convolution model emsembled之後，testing accuracy還是有上升的效果。
 
-| 方法 | testing error on mfcc(ensembled) |
+| 方法 | testing accuracy on mfcc(ensembled) |
 | :-------: | :-----: |
 | 使用原始data | 0.902 |
 | 使用Time strech 隨機量=2 | 0.911 |
@@ -140,7 +141,13 @@ def audio_norm(data):
 | 1D Convolution         |         |          |      |      | 14 hr+ |
 | 2D Convolution on MFCC |         |          |      |      |  2 hr  |
 ## Conclusion
-
+經過我們多次嘗試，我們得出以下結論
+* 對音量做normalize對mfcc有極大的幫助，對1D Convolution model並沒有顯著的效果，推測原因是1D Convolution model中的每個cell都具有常數項，能補足音檔offset，然後mfcc的一系列操作則對offset敏感，故在normalize的時候必須保持音量為0的地方為0。
+* Noise對兩種model都沒有顯著的進步，我們推測這批音檔收音都不錯，所以Noise的效果並沒有很顯著。
+* Pitch shift效果不明顯，我們推測mfcc中的類似convolution的步驟已經提供相似的效果，故結果不明顯。
+* Time strech效果對mfcc有極大的幫助，可能的原因是這種伸縮對mfcc看起來像是全新的資料，但實際而言，卻是相似的聲音，故利用隨機性產生的大量Time strech data就會具有big data的效果。
+* 對於音檔的處理，與其把較短的音檔多餘的部分補0，更好的方式是重複放入一樣的音檔。
+* 增加標準音檔的長度會使準確率變高，我們認為是更能表現某些較長的音檔。
 ## Reference
 
 - [Beginner's Guide to Audio Data](https://www.kaggle.com/fizzbuzz/beginner-s-guide-to-audio-data)
