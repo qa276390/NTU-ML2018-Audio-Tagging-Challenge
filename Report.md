@@ -30,6 +30,7 @@ r06942018 何適楷  b04505021 黃廉弼 b04505026 蔡仲閔 b04901165 陳致維
 
 
 ## Model Description (At least two different models)
+此章節主要介紹我們使用的Model，而實際訓練結果將在Experiment章節討論。
 在這個task中我們主要使用兩種Model，分別是1D-CNN以及2D-CNN on MFCC。一開始有考慮使用RNN進行訓練，但最後仍選擇使用CNN，主要是考慮到因為音訊檔某個程度上具有時序性的關係，但這次的task並非語意辨識那樣有次序調換影響結果的關係，因此透過CNN的filter就可以將其時序相關性表現出來。
 ### 1D Convolution
 我們將音訊檔取sample之後直接將Raw Data餵進1D-CNN Model，中間經過多層架構並有MaxPooling提升訓練速度。而這樣的架構相當簡單，但缺點就是訓練時間非常長，因為我們並沒有對音訊檔做預處理，因此Data size極大，需透過data_generator每次load進Model中訓練，而file I/O次數變大幅增加，也拖垮整體訓練速度。
@@ -49,12 +50,7 @@ r06942018 何適楷  b04505021 黃廉弼 b04505026 蔡仲閔 b04901165 陳致維
 
 ![]() 或Tensor Board的圖片
 
-### Comparison
 
-|                        | val_ACC | val_loss | ACC  | loss |
-| ---------------------- | ------- | -------- | ---- | ---- |
-| 1D Convolution         |         |          |      |      |
-| 2D Convolution on MFCC |         |          |      |      |
 
 ## Experiment and Discussion
 ### Data Preprocessing
@@ -123,7 +119,13 @@ def audio_norm(data):
 | 使用Time strech 隨機量=5 | 0.914 |
 
 因為再大記憶題無法負荷了，所以我們並沒有再繼續增加data argumentation的量，不過我們相信，還是有進步空間的。
+### Model 
+#### Comparison
 
+|                        | val_ACC | val_loss | ACC  | loss |  time  |
+| ---------------------- | ------- | -------- | ---- | ---- | ------ |
+| 1D Convolution         |         |          |      |      | 14 hr+ |
+| 2D Convolution on MFCC |         |          |      |      |  2 hr  |
 ## Conclusion
 
 ## Reference
