@@ -54,16 +54,6 @@ r06942018 何適楷  b04505021 黃廉弼 b04505026 蔡仲閔 b04901165 陳致維
 
 <img src="img/2D-Conv.jpg" width="450">
 
-```python
-可以放一些程式碼
-```
-
-
-
-![]() 或Tensor Board的圖片
-
-
-
 ## Experiment and Discussion
 ### Data Preprocessing
 音訊處理並沒有像圖片一樣可以直接丟進一個CNN Network去處理，中間我們遇到很多問題，像是音檔的長度範圍過大，很容易造成照顧了短檔，忽略的長檔，或是照顧了長檔，但是忽略的短檔，還有在normalize中間其實也存在跟圖片處理不同的狀況。從作業我們也知道，data argumentation的成長幅度是驚人的，所以我們一開始也就把重心放在data argumentation，果真如我們所料，data argumentation所帶來的成果是大的，接下來我們會介紹我們遇到的問題與解決的方法。
@@ -162,8 +152,6 @@ def audio_norm(data):
 ## Reference
 
 - [Beginner's Guide to Audio Data](https://www.kaggle.com/fizzbuzz/beginner-s-guide-to-audio-data)
-
-  在這份kernel中的code裡面學到了很多音訊相關的處理方式.......
 
 - [More To Come. Stay Tuned](https://www.kaggle.com/codename007/a-very-extensive-freesound-exploratory-analysis)
 
