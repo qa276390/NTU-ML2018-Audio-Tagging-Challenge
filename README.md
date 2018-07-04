@@ -34,20 +34,16 @@ To train a model, do:
 
 ```shell
 # To use the train you should give the model you want to use:
-python3 ./final/src/training.py --model 1d_conv
-python3 ./final/src/training.py --model 2d_mfcc
+cd ./final/src && ./train.sh 1d_conv
+cd ./final/src && ./train.sh 2d_mfcc
 ```
-
-### Ensembling
-
-```shell
-python3 ./final/src/ensemble.py ./final/model/1d_conv ./final/model/2d_mfcc
-```
-
 
 
 ### Predict
 
+```shell
+cd ./final/src && ./predict.sh ./final/model/1d_conv ./final/model/2d_mfcc
+```
 
 
 ### Crawler the Rank on Kaggle
