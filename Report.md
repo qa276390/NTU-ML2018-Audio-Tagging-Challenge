@@ -108,7 +108,7 @@ def audio_norm(data):
 #### Audio duration
 經過音檔重複的處理，我們顧及到了音檔過短的問題，但是還是有少部分音檔是遠遠大於2秒的，為了也讓長音檔也能更完整呈現原本的資訊，我們把音檔的標準長度從2秒提升到4秒，綜合上述對音檔資訊的表現得處理，我們得到以下結果：
 
-| 方法 | testing error on mfcc |
+| 方法 | testing accuracy on mfcc |
 | :-------: | :-----: |
 | 原始方法 | 0.914 |
 | 處理過後 | 0.925 |
@@ -148,6 +148,7 @@ def audio_norm(data):
 * Time strech效果對mfcc有極大的幫助，可能的原因是這種伸縮對mfcc看起來像是全新的資料，但實際而言，卻是相似的聲音，故利用隨機性產生的大量Time strech data就會具有big data的效果。
 * 對於音檔的處理，與其把較短的音檔多餘的部分補0，更好的方式是重複放入一樣的音檔。
 * 增加標準音檔的長度會使準確率變高，我們認為是更能表現某些較長的音檔。
+* 1D Convolution model 和 mfcc model 做 emsemble 通常能夠得到更好的model。
 ## Reference
 
 - [Beginner's Guide to Audio Data](https://www.kaggle.com/fizzbuzz/beginner-s-guide-to-audio-data)
