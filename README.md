@@ -42,6 +42,14 @@ To start this project we have to download dataset from Kaggle and put those file
 
 To use the data generator to append the dataset, do:
 
+if only for predict:
+
+```shell
+python3 ./final/src/data_gen.py --test_only 1
+```
+
+for train and predict:
+
 ```shell
 # To use the data generator you should decide 
 # 2 paraneters : strech, num
