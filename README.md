@@ -20,6 +20,24 @@ This final project is dependent on Python
 
 ## Usage
 
+### Folder and Dataset
+
+To start this project we have to download dataset from Kaggle and put those file to `./input/audio_train` and `./input/audio_test` .
+ 
+    .
+    ├── ...
+    ├── src                    
+    │   ├── train.sh              # training scripts
+    │   ├── predict.sh            # predicting scripts
+    │   └── data_gen.py           # data_generator
+    │   └── ...
+    ├── input 
+    │   ├── train.csv             # training list
+    │   ├── sample_submission.csv # testing list
+    │   ├── audio_train           # Folder contains train data (wav file)
+    │   └── audio_test            # Folder contains test data (wav file)
+    └── ...
+
 ### Data Preprocessing (Data Generator) 
 
 To use the data generator to append the dataset, do:
