@@ -41,10 +41,10 @@ cd ./final/src && ./train.sh 2d_mfcc
 ```
 
 
-### Predict
+### Ensemble & Predict
 
 ```shell
-cd ./final/src && ./predict.sh ./final/model/1d_conv ./final/model/2d_mfcc
+cd ./final/src && ./predict.sh
 ```
 
 
