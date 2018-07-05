@@ -5,9 +5,9 @@ import sys
 from argparse import ArgumentParser
 
 parser = ArgumentParser()
-parser.add_argument("--stretch", dest="stretch", type=float)
-parser.add_argument("--num", dest="num", type=int)
-parser.add_argument("--test_only", dest="test_only", type=int)
+parser.add_argument("--stretch", dest="stretch", type=float, default=1.1)
+parser.add_argument("--num", dest="num", type=int,default=5)
+parser.add_argument("--test_only", dest="test_only", type=int,default=0)
 args = parser.parse_args()
 
 stretch_rate = args.stretch
