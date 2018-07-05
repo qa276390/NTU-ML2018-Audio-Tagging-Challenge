@@ -83,9 +83,9 @@ MFCC 是一種相當常見的聲音預處理技術。我們是直接使用libros
 
 ## Model Description
 此章節主要介紹我們使用的Model，而實際訓練結果將在Experiment章節討論。
-在這個task中我們主要使用兩種Model，分別是1D-CNN以及2D-CNN on MFCC。一開始有考慮使用RNN進行訓練，但最後仍選擇使用CNN，主要是考慮到因為音訊檔某個程度上具有時序性的關係，但這次的task並非語意辨識那樣有次序調換影響結果的關係，因此透過CNN的filter就可以將其時序相關性表現出來。其中我們訓練都使用StratifiedKFold進行分層採樣，確保validation set中各類型資料比例和training set相同，並分別進行十次訓練，最後在進行ensemble.
+在這個task中我們主要使用兩種Model，分別是1D-CNN以及2D-CNN on MFCC。一開始有考慮使用RNN進行訓練，但最後仍選擇使用CNN，主要是考慮到因為音訊檔某個程度上具有時序性的關係，但這次的task並非語意辨識那樣有次序調換影響結果的關係，因此透過CNN的filter就可以將其時序相關性表現出來。其中我們訓練都使用StratifiedKFold進行分層採樣，確保validation set中各類型資料比例和training set相同，並分別進行十次訓練，最後再進行ensemble.
 ### 1D Convolution
-我們將音訊檔取sample之後直接將Raw Data餵進1D-CNN Model，中間經過多層架構並有MaxPooling提升訓練速度。而這樣的架構相當簡單，但缺點就是訓練時間非常長，因為我們並沒有對音訊檔做預處理，因此Data size極大，需透過data_generator每次load進Model中訓練，而file I/O次數變大幅增加，也拖垮整體訓練速度。
+我們將音訊檔取sample之後直接將Raw Data餵進1D-CNN Model，中間經過多層架構並有MaxPooling提升訓練速度。而這樣的架構相當簡單，但缺點就是訓練時間非常長，因為我們並沒有對音訊檔做預處理，因此Data size極大，需透過data_generator每次load進Model中訓練，而file I/O次數便大幅增加，也拖垮整體訓練速度。
 
 
 |                        |  epoch  | learning_rate | optimizer  |        loss_function         |  activation_function  |
@@ -108,7 +108,7 @@ MFCC 是一種相當常見的聲音預處理技術。我們是直接使用libros
 
 ## Experiment and Discussion
 ### Data Preprocessing
-音訊處理並沒有像圖片一樣可以直接丟進一個CNN Network去處理，中間我們遇到很多問題，像是音檔的長度範圍過大，很容易造成照顧了短檔，忽略的長檔，或是照顧了長檔，但是忽略的短檔，還有在normalize中間其實也存在跟圖片處理不同的狀況。從作業我們也知道，data argumentation的成長幅度是驚人的，所以我們一開始也就把重心放在data argumentation，果真如我們所料，data argumentation所帶來的成果是大的，接下來我們會介紹我們遇到的問題與解決的方法。
+音訊處理並沒有像圖片一樣可以直接丟進一個CNN Network去處理，中間我們遇到很多問題，像是音檔的長度範圍過大，很容易造成照顧了短檔，忽略的長檔，或是照顧了長檔，但是忽略的短檔，還有在normalize中間其實也存在跟圖片處理不同的狀況。從作業我們也知道，data argumentation的成長幅度是驚人的，所以我們一開始也就把重心放在data argumentation，果真如我們所料，data argumentation所帶來的成果是相當顯著的，接下來我們會介紹我們遇到的問題與解決的方法。
 #### Sampling Rate
 人耳一般能聽到的聲音範圍極限大約是20kHz，我們選用的取樣頻率是44kHz從Nyquist theory得到最大能表現的頻率是22kHz，這樣使得能表現的頻率略高於人耳能聽見的頻率，讓人耳接受到的資訊完整呈現給機器處理，
 #### Volume normalize
@@ -173,7 +173,7 @@ def audio_norm(data):
 | 使用Time strech 隨機量=2 | 0.911 |
 | 使用Time strech 隨機量=5 | 0.914 |
 
-因為再大記憶題無法負荷了，所以我們並沒有再繼續增加data argumentation的量，不過我們相信，還是有進步空間的。
+因為若再調大，記憶體將無法負荷了，所以我們並沒有再繼續增加data argumentation的量，不過我們相信，還是有進步空間的。
 ### Model 
 這次使用的兩個Model中，其中1D Convolution訓練時間長
 #### Comparison
