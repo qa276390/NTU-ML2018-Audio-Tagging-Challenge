@@ -179,11 +179,18 @@ def audio_norm(data):
 #### Comparison
 在這邊我們將比較兩種不同的Model的表現，其中 2D Convolution 我們也又進行參數調整， 將filter數增加一倍，並增加Dropout Layer以避免模型過擬和，而在單一模型中也可以看到明顯提升，但ensemble之後提升較不明顯。我們以下的Accuracy及Loss都將取最後一次訓練的資料來做比較。
 
-|                            | ACC    | loss   | val_ACC | val_loss | time   |
-| -------------------------- | ------ | ------ | ------- | -------- | ------ |
-| 1D Convolution             | 62.87% | 1.2810 | 57.28%  | 1.5240   | 14 hr+ |
-| 2D Convolution on MFCC     | 92.65% | 0.2700 | 79.11%  | 0.8567   | 2 hr   |
-| Big 2D Convolution on MFCC | 96.49% | 0.1536 | 84.93%  | 0.6516   | 3 hr   |
+|                            |  acc   | loss   | val_acc | val_loss | time   |   color   |
+| -------------------------- | ------ | ------ | ------- | -------- | ------ | --------- |
+| 1D Convolution             | 62.87% | 1.2810 | 57.28%  | 1.5240   | 14 hr+ |   blue    |
+| 2D Convolution on MFCC     | 92.65% | 0.2700 | 79.11%  | 0.8567   | 2 hr   |   pink    |
+| Big 2D Convolution on MFCC | 96.49% | 0.1536 | 84.93%  | 0.6516   | 3 hr   | dark_blue |
+
+下面則是訓練過程，我們一樣取最後一次訓練做觀察。
+
+|                 acc                 |               loss                   |               val_acc                   |         val_loss                            |
+| ----------------------------------- | ------------------------------------ | --------------------------------------- | -------------------------------------------------- |
+| <img src="img/acc.png" width="150"> | <img src="img/loss.png" width="150"> | <img src="img/val_acc.png" width="150"> |  <img src="img/val_loss.png" width="150"> |   
+
 
 從上表可以看到1D Convolution 其實相當不好訓練，即便在TitanV的環境下仍要超過半天的時間，且Accuracy並不好，然而最後進行Ensemble時卻又不可或缺，總是能讓最好表現再上一層樓。
 
