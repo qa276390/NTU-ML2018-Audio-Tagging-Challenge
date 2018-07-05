@@ -8,7 +8,7 @@ r06942018 何適楷   b04505021 黃廉弼  b04505026 蔡仲閔  b04901165 陳致
 
 This final project is dependent on Python 
 
-- keras == 2.1.6
+- keras == 2.2.0
 - librosa == 0.6.1
 - numpy == 1.14.0
 - pandas == 0.22.0
