@@ -18,11 +18,11 @@ np.random.seed(1001)
 import os
 import shutil
 
-import IPython
+#import IPython
 import matplotlib
 import matplotlib.pyplot as plt
 import pandas as pd
-import seaborn as sns
+#import seaborn as sns
 #from tqdm import tqdm_notebook
 from sklearn.cross_validation import StratifiedKFold
 import tensorflow as tf

@@ -35,7 +35,8 @@ To start this project we have to download dataset from Kaggle and put those file
     │   ├── train.csv             # training list
     │   ├── sample_submission.csv # testing list
     │   ├── audio_train           # Folder contains train data (wav file)
-    │   └── audio_test            # Folder contains test data (wav file)
+    │   ├── audio_test            # Folder contains test data (wav file)
+    |   └── mfcc                  # output folder for mfcc_test.npy
     └── ...
 
 ### Data Preprocessing (Data Generator) 
@@ -62,16 +63,17 @@ To train a model, do:
 
 ```shell
 # To use the train you should give the model you want to use:
-cd ./final/src && ./train.sh 1d_conv
-cd ./final/src && ./train.sh 2d_mfcc
+cd ./final/src && bash train.sh 1d_conv
+cd ./final/src && bash train.sh 2d_mfcc
 ```
 
 
 ### Ensemble & Predict
 
 ```shell
-cd ./final/src && ./predict.sh
+cd ./final/src && bash predict.sh
 ```
+whitch will output `1d_2d_ensembled_submission.csv` in the same directory
 
 
 ### Crawler the Rank on Kaggle
