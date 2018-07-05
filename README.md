@@ -27,7 +27,7 @@ To use the data generator to append the dataset, do:
 ```shell
 # To use the data generator you should decide 
 # 2 paraneters : strech, num
-python3 ./final/src/data_gen.py --strech 1.1 --num 5
+python3 ./final/src/data_gen.py --strech 1.1 --num 5 
 ```
 
 ### Training
