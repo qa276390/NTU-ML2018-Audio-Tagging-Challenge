@@ -189,7 +189,7 @@ def audio_norm(data):
 
 |                 acc                 |               loss                   |               val_acc                   |         val_loss                            |
 | ----------------------------------- | ------------------------------------ | --------------------------------------- | -------------------------------------------------- |
-| <img src="img/acc.png" width="150"> | <img src="img/loss.png" width="150"> | <img src="img/val_acc.png" width="150"> |  <img src="img/val_loss.png" width="150"> |   
+| <img src="img/acc.png" width="150"> | <img src="img/loss.png" width="150"> | <img src="img/val_acc.png" width="150"> |  <img src="img/val_loss.png" width="150"> |
 
 
 從上表可以看到1D Convolution 其實相當不好訓練，即便在TitanV的環境下仍要超過半天的時間，且Accuracy並不好，然而最後進行Ensemble時卻又不可或缺，總是能讓最好表現再上一層樓。
