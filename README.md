@@ -1,4 +1,5 @@
-# Machine Learning (2018,Spring) Final Project
+# NTU Machine Learning (2018,Spring) Final Project
+Freesound General-Purpose Audio Tagging Challenge
 
 Team Member:
 
