@@ -93,7 +93,7 @@ MFCC 是一種相當常見的聲音預處理技術。我們是直接使用libros
 | 1D Convolution         |   50    |     0.0001    |    Adam    |   categorical_crossentropy   |          relu         |
 
 
-<img src="img/1D-Conv.jpg" width="450">
+<img src="img/1D-Conv.jpg" width="400">
 
 ### 2D Convolution on MFCC
 在這裡則是較常見的做法，我們先將data透過MFCC做預處理在在將它餵進2D-CNN Model中，此時就接近一個我們熟悉的圖像辨識問題。而好處在於透過MFCC處理的資料不但Size較小且較接近人耳辨識聲音的方式，因此在這個模型上可以得到相當不錯的結果。
@@ -104,7 +104,7 @@ MFCC 是一種相當常見的聲音預處理技術。我們是直接使用libros
 | 2D Convolution         |   50    |     0.0001    |    Adam    |   categorical_crossentropy   |          relu         |
 
 
-<img src="img/2D-Conv.jpg" width="450">
+<img src="img/2D-Conv.jpg" width="400">
 
 ## Experiment and Discussion
 ### Data Preprocessing
